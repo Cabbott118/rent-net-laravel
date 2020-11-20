@@ -61,6 +61,15 @@
             </button>
         </div>
         <nav class="hidden md:flex space-x-10">
+
+            <a href="{{ route('home') }}" class="text-base font-medium text-gray-500 hover:text-gray-900">
+                Home
+            </a>
+
+            <a href="#" class="text-base font-medium text-gray-500 hover:text-gray-900">
+                Posts
+            </a>
+
             <div x-data="{ open: false }" class="relative">
             <!-- Item active: "text-gray-900", Item inactive: "text-gray-500" -->
             <button type="button" @click="open = true" class="group bg-white rounded-md text-gray-500 inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -75,16 +84,6 @@
                 </svg>
             </button>
 
-            <!--
-                'Solutions' flyout menu, show/hide based on flyout menu state.
-
-                Entering: "transition ease-out duration-200"
-                From: "opacity-0 translate-y-1"
-                To: "opacity-100 translate-y-0"
-                Leaving: "transition ease-in duration-150"
-                From: "opacity-100 translate-y-0"
-                To: "opacity-0 translate-y-1"
-            -->
             <div x-show="open" @click.away="open = false" class="absolute -ml-4 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
                 <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                 <div class="z-20 relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
@@ -189,13 +188,6 @@
             </div>
             </div>
 
-            <a href="#" class="text-base font-medium text-gray-500 hover:text-gray-900">
-            Posts
-            </a>
-            <a href="#" class="text-base font-medium text-gray-500 hover:text-gray-900">
-            Docs
-            </a>
-
             <div x-data="{ open: false }" class="relative">
             <!-- Item active: "text-gray-900", Item inactive: "text-gray-500" -->
             <button type="button" @click="open = true" class="group bg-white rounded-md text-gray-500 inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -210,16 +202,6 @@
                 </svg>
             </button>
 
-            <!--
-                'More' flyout menu, show/hide based on flyout menu state.
-
-                Entering: "transition ease-out duration-200"
-                From: "opacity-0 translate-y-1"
-                To: "opacity-100 translate-y-0"
-                Leaving: "transition ease-in duration-150"
-                From: "opacity-100 translate-y-0"
-                To: "opacity-0 translate-y-1"
-            -->
             <div x-show="open" @click.away="open = false" class="absolute left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0">
                 <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                 <div class="z-20 relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
@@ -326,9 +308,28 @@
                 </a>
             @endguest
             @auth
-                <a href="{{ route('dashboard') }}" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-                    {{auth()->user()->first_name}}'s Dashboard
-                </a>
+                <div x-data="{ open: false }" class="relative inline-block text-left">
+                <div>
+                    <button type="button" @click="open = true" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true">
+                    {{auth()->user()->first_name}}
+                    <!-- Heroicon name: chevron-down -->
+                    <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                    </button>
+                </div>
+
+                <div x-show="open" @click.away="open = false" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                    <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Account Dashboard</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">
+                        Sign Out
+                        </button>
+                    </form>
+                    </div>
+                </div>
+                </div>
             @endauth
         </div>
         </div>
@@ -466,6 +467,11 @@
                         <a href="{{ route('dashboard') }}" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
                             Account Dashboard
                         </a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            <button type="submit" class="block w-full text-center mt-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">
+                            Sign Out
+                            </button>
+                    </form>
                     @endauth
                 </div>
             </div>
