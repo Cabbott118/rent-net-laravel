@@ -2,7 +2,8 @@
 
 @section('content')
     <div class="flex justify-center">
-        <div class="w-4/12 bg-white p-6 rounded-lg">
+        <div class="w-10/12 md:w-6/12 lg:w-4/12 bg-white p-6 rounded-lg">
+        <h1 class="text-3xl text-center text-gray-600 mb-3">Sign Up</h1>
             <form action="{{ route('register') }}" method="post">
                 @csrf
                 <div class="mb-4">
@@ -48,7 +49,7 @@
                     @enderror
                 </div>
                 <div>
-                    <button class="bg-blue-500 text-white px-4 py-3 rounded font-medium w-full">Register</button>
+                    <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-3 rounded-lg font-medium w-full">Sign Up</button>
                 </div>
             </form>
         </div>
